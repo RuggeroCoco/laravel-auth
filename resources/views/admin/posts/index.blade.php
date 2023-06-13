@@ -1,8 +1,15 @@
 @extends('layouts.admin')
 
-@section('content')
-    <h1>Tutti i post</h1>
 
+
+@section('content')
+
+@include('partials.session_message')
+
+    <h1>Tutti i post</h1>
+    <div class="text-end">
+      <a href="{{route('admin.posts.create')}}" class="btn btn-success">Nuovo post</a>
+    </div>
     <table class="table">
   <thead>
     <tr>
@@ -20,6 +27,14 @@
       <td>{{$post->slug}}</td>
       <td>
         <a href="{{route('admin.posts.show', $post->slug)}}" class="btn btn-success"><i class="fa-solid fa-eye"></i></a>
+        <a href="{{route('admin.posts.edit', $post->slug)}}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+        <form class="d-inline-block" action="{{route('admin.posts.destroy', $post->slug)}}" method="POST">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger">
+              <i class="fa-solid fa-trash"></i>
+          </button>
+        </form>
       </td>
     </tr>
     @endforeach
